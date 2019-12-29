@@ -1,11 +1,30 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, FlatList } from 'react-native';
 import Header from './app/components/Header';
 import Subtitle from './app/components/Subtitle';
 import Input from './app/components/Input';
 import Listitem from './app/components/Listitem';
 
-export default function App() {
+export default class App extends React.Component {
+  constructor(props){
+    super(props);
+    this.state={
+      todos:[
+        {
+          title:"나는 공부를 하지 않아"
+        },
+        {
+          title:"일찍 일어날래"
+        },
+        ]
+    }
+  }
+  _makeTodoItem =({item, index})=>{
+    return(
+      <Listitem name ={item.title} />
+      )
+  }
+  render(){
   return (
     <View style={styles.container}>
       <View style={styles.headercenter}>
@@ -17,12 +36,15 @@ export default function App() {
       </View>
       <View style={styles.subtitleposition}>
       <Subtitle title="해야할 일 목록"/>
-      <Listitem name = "코딩하기"/>
-      <Listitem name = "운동하기"/>
-
+     
+      <FlatList
+        data = {this.state.todos}
+        renderItem = {this._makeTodoItem}
+        keyExtractor={(item, index) => { return `${index}`}}/>
       </View>
     </View>
   );
+}
 }
 
 const styles = StyleSheet.create({
